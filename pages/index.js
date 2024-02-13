@@ -11,7 +11,7 @@ const Heading = styled.h1`
 export default function HomePage() {
   const { mutate } = useSWR("/api/products");
 
-  async function handleSubmit(event) {
+  async function handleAddProduct(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -41,7 +41,7 @@ export default function HomePage() {
         </span>
         Fish Shop
       </Heading>
-      <ProductForm />
+      <ProductForm onSubmit={handleAddProduct} />
       <hr />
       <ProductList />
     </>
