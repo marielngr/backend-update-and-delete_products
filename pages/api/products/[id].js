@@ -23,4 +23,9 @@ export default async function handler(request, response) {
       .status(200)
       .json({ status: `Product successfully updated` });
   }
+
+  if (request.method === "DELETE") {
+    await Product.findByIdAndDelete(id);
+    response.status(200).json({ status: "Product successfully deleted." });
+  }
 }

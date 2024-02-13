@@ -15,7 +15,7 @@ export default function Product() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   async function handleEditProduct(event) {
-    //Formsubmit ist normales Browserevent, wird als Argument übergeben, um z.B. auch event.preventDefault aufrufen zu können
+    //Formsubmit ist normales Browserevent, wird als Argument übergeben, um z.B. event.preventDefault aufrufen zu können
     event.preventDefault();
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
@@ -27,6 +27,23 @@ export default function Product() {
     });
     if (response.ok) {
       mutate();
+    }
+  }
+
+  async function handleDeleteProduct(id) {
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this fish?"
+    );
+    if (confirmation) {
+      const response = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        router.push("/");
+      }
+      if (!response.ok) {
+        console.log("response not okay:", response.status);
+      }
     }
   }
 
@@ -54,6 +71,15 @@ export default function Product() {
         }}
       >
         Edit
+      </StyledButton>
+      <StyledButton
+        type="button"
+        onClick={() => {
+          handleDeleteProduct(id);
+          console.log("Edit button wurde gelöscht!");
+        }}
+      >
+        Delete
       </StyledButton>
       {data.reviews.length > 0 && <Comments reviews={data.reviews} />}
       <StyledLink href="/">Back to all</StyledLink>
