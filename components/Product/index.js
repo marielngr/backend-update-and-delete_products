@@ -25,6 +25,7 @@ export default function Product() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(productData),
     });
+    event.target.reset();
     if (response.ok) {
       mutate();
     }
