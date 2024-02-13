@@ -15,11 +15,10 @@ export default function Product() {
   const [isEditMode, setIsEditMode] = useState(false);
 
   async function handleEditProduct(event) {
-    //Frage: Wann muss event extra als Parameter übergeben werden?
+    //Formsubmit ist normales Browserevent, wird als Argument übergeben, um z.B. auch event.preventDefault aufrufen zu können
     event.preventDefault();
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
-    //verstehe Implikation vom Hint in Aufgabenstellung hier nicht
 
     const response = await fetch(`/api/products/${id}`, {
       method: "PUT",
@@ -58,7 +57,9 @@ export default function Product() {
       </StyledButton>
       {data.reviews.length > 0 && <Comments reviews={data.reviews} />}
       <StyledLink href="/">Back to all</StyledLink>
-      {isEditMode && <ProductForm onSubmit={handleEditProduct} />}
+      {isEditMode && (
+        <ProductForm onSubmit={handleEditProduct} heading="Edit product" />
+      )}
     </ProductCard>
   );
 }
